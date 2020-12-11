@@ -10,6 +10,91 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employeeList = []
+
+// Ask for manager info - name, id email, officenum
+function askUserForManagerInfo() {
+
+        return inquirer.prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "Please add Manager name here -->"
+
+            },
+
+            {
+                type: "input",
+                name: "id",
+                message: "Please input your Managers id number here -->"
+            },
+
+            {
+                type: "input",
+                name: "email",
+                message: "Please input your Managers email address here -->"
+            },
+
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "Please input your Managers office number here -->"
+            }
+        ]).then((managerData) => {
+            const newManager = new Manager(managerData.name, managerData.id, managerData.email, managerData.officeNumber);
+
+            employeeList.push(newManager);
+
+            askUserForEmployeeType();
+
+            // createHtmlfile();
+        });
+}
+// Ask user for next employee type - one option is no more team members
+function askUserForEmployeeType() {
+    return inquirer.prompt([
+        {
+            type: "list",
+            name: "continue",
+            message: "Please select another employee to add to your team.  Pick one of the following:",
+            choices: ["Manager", "Engineer", "Intern", "Intern", "I am done building my team!"]
+        }
+    ]).then((newEmployeeChoiceData) => {
+        // if manager selected
+        if (newEmployeeChoiceData.continue === "Manager") {
+        askUserForManagerInfo();
+        } else if (newEmployeeChoiceData.continue === "Enigneer") {
+        // if engineer selected
+        askUserForEngineerInfo();
+        } else if (newEmployeeChoiceData.continue === "Intern") {
+        // else if the user selected intern
+        askUserForInternInfo();
+        }
+        // ELSE
+        createHtmlfile();
+    })
+
+}
+// // Ask user for engineer info - name, id, email, github
+// function askUserForEngineerInfo() {
+
+// }
+// // Ask user for intern info
+// function askUserForInternInfo() {
+
+// }
+
+function createHtmlfile() {
+    const htmlContent = render(employeeList);
+
+    // Use fs module to create output file
+    fs.writeFile(outputPath, htmlContent, (err) => {
+        if (err) throw err;
+    } )
+}
+
+askUserForManagerInfo();
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)

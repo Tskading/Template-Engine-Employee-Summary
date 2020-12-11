@@ -26,5 +26,6 @@ test("Can get GitHub username via getGithub()", () => {
   const e = new Engineer("Foo", 1, "test@test.com", testValue);
   // Arrange
   const result = e.getGithub()
+  // Assert
   expect(result).toBe(testValue);
 });
