@@ -57,7 +57,7 @@ function askUserForEmployeeType() {
             type: "list",
             name: "continue",
             message: "Please select another employee to add to your team.  Pick one of the following:",
-            choices: ["Manager", "Engineer", "Intern", "Intern", "I am done building my team!"]
+            choices: ["Manager", "Engineer", "Intern", "I am done building my team!"]
         }
     ]).then((newEmployeeChoiceData) => {
         // if manager selected
@@ -112,9 +112,42 @@ function askUserForEngineerInfo() {
 })
 }
 // // Ask user for intern info - school
-// function askUserForInternInfo() {
+function askUserForInternInfo() {
 
-// }
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Please add Intern name here -->"
+    
+        },
+    
+        {
+            type: "input",
+            name: "id",
+            message: "Please input your Interns id number here -->"
+        },
+    
+        {
+            type: "input",
+            name: "email",
+            message: "Please input your Interns email address here -->"
+        },
+    
+        {
+            type: "input",
+            name: "school",
+            message: "Please input your Interns school here -->"
+        }
+    ]).then ((internData) => {
+        const newIntern = new Intern(internData.name, internData.id, internData.email, internData.school);
+    
+        employeeList.push(newIntern);
+    
+        askUserForEmployeeType();
+    })
+
+}
 
 function createHtmlfile() {
     const htmlContent = render(employeeList);
