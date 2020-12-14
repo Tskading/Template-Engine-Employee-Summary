@@ -47,7 +47,6 @@ function askUserForManagerInfo() {
 
             askUserForEmployeeType();
 
-            // createHtmlfile();
         });
 }
 // Ask user for next employee type - one option is no more team members
